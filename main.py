@@ -2,19 +2,20 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from pytrends.request import TrendReq
 import os
+import traceback
 
 app = Flask(__name__)
 CORS(app)
+
 pytrends = TrendReq(hl='vi-VN', tz=420)
 
 @app.route('/trends/vn')
 def trends_vn():
     try:
-        trending_searches = pytrends.trending_searches(pn='vietnam')
-        queries = [item.get("title", "") for item in trending_searches["storySummaries"]["trendingStories"]]
-        return jsonify(queries[:10])
+        df = pytrends.realtime_trending_searches(pn='VN')  # ✅ Cái này hoạt động
+        top_titles = df["title"].dropna().tolist()[:10]     # Lấy danh sách top 10 title
+        return jsonify(top_titles)
     except Exception as e:
-        import traceback
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
