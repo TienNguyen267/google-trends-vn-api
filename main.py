@@ -10,7 +10,7 @@ pytrends = TrendReq(hl='vi-VN', tz=420)
 @app.route('/trends/vn')
 def trends_vn():
     try:
-        trending_searches = pytrends.realtime_trending_searches(pn='VN')
+        trending_searches = pytrends.trending_searches(pn='vietnam')
         queries = [item.get("title", "") for item in trending_searches["storySummaries"]["trendingStories"]]
         return jsonify(queries[:10])
     except Exception as e:
