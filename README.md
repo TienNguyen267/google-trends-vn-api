@@ -1,15 +1,16 @@
-# Google Trends API (Fixed)
+# Advanced Google Trends API
 
-FastAPI server to fetch trending Google searches using pytrends.
+FastAPI server for:
+- /trends/global — Global trending searches
+- /related/{keyword} — Related searches for any keyword
 
 ## Usage
 
-```
+```bash
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-## Deploy to Railway
+## Deploy
 
-- Include `Procfile`
-- Use Python 3.8+
+Use Procfile on Railway or Render

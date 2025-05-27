@@ -1,5 +1,5 @@
 [project]
-name = "trends-api"
-version = "0.1.0"
-description = "Google Trends API with FastAPI"
+name = "advanced-trends-api"
+version = "0.2.0"
+description = "Advanced Google Trends API using FastAPI and pytrends"
 requires-python = ">=3.8"
