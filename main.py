@@ -1,24 +1,21 @@
-from flask import Flask, jsonify
-from flask_cors import CORS
+from fastapi import FastAPI
 from pytrends.request import TrendReq
-import os
-import traceback
+from fastapi.middleware.cors import CORSMiddleware
 
-app = Flask(__name__)
-CORS(app)
+app = FastAPI()
 
-pytrends = TrendReq(hl='vi-VN', tz=420)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
-@app.route('/trends/vn')
-def trends_vn():
+@app.get("/trends/{region}")
+def get_trends(region: str):
     try:
-        df = pytrends.realtime_trending_searches(pn='VN')  # ✅ Cái này hoạt động
-        top_titles = df["title"].dropna().tolist()[:10]     # Lấy danh sách top 10 title
-        return jsonify(top_titles)
+        pytrends = TrendReq()
+        data = pytrends.trending_searches(pn=region.lower())
+        return {"trends": data[0].tolist()}
     except Exception as e:
-        traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+        return {"error": str(e)}
