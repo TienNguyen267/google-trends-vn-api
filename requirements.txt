@@ -1,3 +1,4 @@
 fastapi
 uvicorn
 pytrends
+urllib3<2.0
